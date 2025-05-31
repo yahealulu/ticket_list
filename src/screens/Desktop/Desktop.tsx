@@ -88,50 +88,52 @@ export const Desktop = (): JSX.Element => {
   }
 
   return (
-    <div className="bg-[#f8f5ff] dark:bg-gray-900 flex flex-row justify-center w-full transition-colors duration-300">
+    <div className="bg-[#f8f5ff] dark:bg-gray-900 flex flex-row justify-center w-full min-h-screen transition-colors duration-300">
       <div className="bg-[#f8f5ff] dark:bg-gray-900 w-full max-w-[1440px] relative flex flex-row transition-colors duration-300">
         <motion.div
           initial={{ x: -100 }}
           animate={{ x: 0 }}
-          className="hidden lg:flex w-[72px] h-screen flex-shrink-0 [background:linear-gradient(90deg,rgba(37,31,50,1)_0%,rgba(58,47,83,1)_100%)]"
+          className="hidden lg:flex w-[72px] h-screen flex-shrink-0 [background:linear-gradient(90deg,rgba(37,31,50,1)_0%,rgba(58,47,83,1)_100%)] sticky top-0"
         >
-          <div className="flex justify-center pt-4">
-            <motion.img
-              initial={{ scale: 0 }}
-              animate={{ scale: 1 }}
-              transition={{ delay: 0.2 }}
-              className="w-6 h-6"
-              alt="Logo"
-              src={LogoImage}
-            />
-          </div>
+          <div className="flex flex-col w-full">
+            <div className="flex justify-center pt-4">
+              <motion.img
+                initial={{ scale: 0 }}
+                animate={{ scale: 1 }}
+                transition={{ delay: 0.2 }}
+                className="w-6 h-6"
+                alt="Logo"
+                src={LogoImage}
+              />
+            </div>
 
-          <div className="flex flex-col items-center gap-[42px] mt-[74px]">
-            {navItems.map((item, index) => (
-              <motion.div
-                key={index}
-                whileHover={{ scale: 1.1 }}
-                whileTap={{ scale: 0.9 }}
-              >
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  className={`rounded-full p-2 ${
-                    item.active ? "bg-[#ffffff33]" : ""
-                  }`}
+            <div className="flex flex-col items-center gap-[42px] mt-[74px]">
+              {navItems.map((item, index) => (
+                <motion.div
+                  key={index}
+                  whileHover={{ scale: 1.1 }}
+                  whileTap={{ scale: 0.9 }}
                 >
-                  {item.icon}
-                </Button>
-              </motion.div>
-            ))}
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    className={`rounded-full p-2 ${
+                      item.active ? "bg-[#ffffff33]" : ""
+                    }`}
+                  >
+                    {item.icon}
+                  </Button>
+                </motion.div>
+              ))}
+            </div>
           </div>
         </motion.div>
 
-        <div className="flex-1 flex flex-col">
+        <div className="flex-1 flex flex-col min-h-screen">
           <SidebarSection searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
 
-          <div className="flex flex-1">
-            {!isChatVisible || window.innerWidth >= 1024 ? (
+          <div className="flex flex-1 relative">
+            {(!isChatVisible || window.innerWidth >= 1024) ? (
               <PanelGroup direction="horizontal">
                 <Panel defaultSize={20} minSize={15} className="hidden lg:block">
                   <TicketListSection
@@ -174,7 +176,12 @@ export const Desktop = (): JSX.Element => {
                 )}
               </PanelGroup>
             ) : (
-              <div className="fixed inset-0 bg-white z-50">
+              <motion.div
+                initial={{ opacity: 0, x: 100 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: 100 }}
+                className="fixed inset-0 bg-white z-50"
+              >
                 <HeaderSection 
                   selectedTicket={selectedTicket}
                   messageInput={messageInput}
@@ -182,7 +189,7 @@ export const Desktop = (): JSX.Element => {
                   sendMessage={sendMessage}
                   onClose={() => setIsChatVisible(false)}
                 />
-              </div>
+              </motion.div>
             )}
           </div>
 

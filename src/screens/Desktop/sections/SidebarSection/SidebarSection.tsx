@@ -13,7 +13,7 @@ interface SidebarSectionProps {
 
 export const SidebarSection = ({ searchQuery, setSearchQuery }: SidebarSectionProps): JSX.Element => {
   return (
-    <header className="w-full h-auto min-h-12 bg-[#f9f5ff] dark:bg-gray-800 shadow-[0px_2px_6px_#b9b5c0a6] dark:shadow-[0px_2px_6px_rgba(0,0,0,0.3)] flex flex-col lg:flex-row items-center justify-between px-4 lg:px-[91px] py-4 lg:py-0 transition-colors duration-300">
+    <header className="w-full bg-[#f9f5ff] dark:bg-gray-800 shadow-[0px_2px_6px_#b9b5c0a6] dark:shadow-[0px_2px_6px_rgba(0,0,0,0.3)] flex flex-col lg:flex-row items-center justify-between px-4 lg:px-[91px] py-4 lg:py-2 transition-colors duration-300 sticky top-0 z-50">
       <motion.h1 
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
