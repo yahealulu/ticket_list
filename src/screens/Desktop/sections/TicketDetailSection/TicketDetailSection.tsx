@@ -41,73 +41,75 @@ export const TicketDetailSection = ({
   onTicketSelect
 }: TicketDetailSectionProps): JSX.Element => {
   return (
-    <section className="flex flex-col w-full max-w-[684px] gap-6">
-      <Card className="border-0 shadow-none">
-        <Table>
-          <TableHeader>
-            <TableRow className="hover:bg-transparent">
-              <TableHead className="w-[200px] font-semibold text-sm text-[#6b6b6b]">
-                Name
-              </TableHead>
-              <TableHead className="w-[187px] font-semibold text-sm text-[#6b6b6b]">
-                Subject
-              </TableHead>
-              <TableHead className="w-[100px] font-semibold text-sm text-[#6b6b6b]">
-                Timestamp
-              </TableHead>
-              <TableHead className="w-[54px] font-semibold text-sm text-[#6b6b6b]">
-                State
-              </TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {tickets.map((ticket) => (
-              <TableRow
-                key={ticket.id}
-                className="hover:bg-gray-50 bg-white cursor-pointer"
-                style={{
-                  boxShadow: "0px 2px 4px #e2dfe9cc",
-                  borderRadius: "0.5rem",
-                  marginBottom: "0.5rem",
-                }}
-                onClick={() => onTicketSelect(ticket.id)}
-              >
-                <TableCell className="flex items-center gap-2 py-1">
-                  <Avatar className="w-10 h-10 bg-[#d9d9d9] rounded-[20px]">
-                    <AvatarFallback className="bg-[#d9d9d9]">
-                      {ticket.customer_name.split(' ').map(n => n[0]).join('')}
-                    </AvatarFallback>
-                  </Avatar>
-                  <span className="font-normal text-sm text-[#252426]">
-                    {ticket.customer_name}
-                  </span>
-                </TableCell>
-                <TableCell className="font-normal text-sm text-[#252526] py-1">
-                  {ticket.subject}
-                </TableCell>
-                <TableCell className="font-normal text-sm text-[#6b6b6b] py-1">
-                  {formatDistanceToNow(new Date(ticket.timestamp), { addSuffix: true })}
-                </TableCell>
-                <TableCell className="py-1">
-                  <Badge 
-                    className={`font-normal px-2 py-1 rounded-lg ${
-                      ticket.status === 'open' 
-                        ? 'bg-[#caedff] text-[#2b9ed7]' 
-                        : ticket.status === 'pending'
-                        ? 'bg-[#fff3ca] text-[#d7962b]'
-                        : 'bg-[#ffcaca] text-[#d72b2b]'
-                    }`}
-                  >
-                    {ticket.status.charAt(0).toUpperCase() + ticket.status.slice(1)}
-                  </Badge>
-                </TableCell>
+    <section className="flex flex-col w-full max-w-full lg:max-w-[684px] gap-6 p-4 lg:p-6">
+      <Card className="border-0 shadow-none overflow-x-auto">
+        <div className="min-w-[600px]">
+          <Table>
+            <TableHeader>
+              <TableRow className="hover:bg-transparent">
+                <TableHead className="w-[200px] font-semibold text-sm text-[#6b6b6b]">
+                  Name
+                </TableHead>
+                <TableHead className="w-[187px] font-semibold text-sm text-[#6b6b6b]">
+                  Subject
+                </TableHead>
+                <TableHead className="w-[100px] font-semibold text-sm text-[#6b6b6b]">
+                  Timestamp
+                </TableHead>
+                <TableHead className="w-[54px] font-semibold text-sm text-[#6b6b6b]">
+                  State
+                </TableHead>
               </TableRow>
-            ))}
-          </TableBody>
-        </Table>
+            </TableHeader>
+            <TableBody>
+              {tickets.map((ticket) => (
+                <TableRow
+                  key={ticket.id}
+                  className="hover:bg-gray-50 bg-white cursor-pointer"
+                  style={{
+                    boxShadow: "0px 2px 4px #e2dfe9cc",
+                    borderRadius: "0.5rem",
+                    marginBottom: "0.5rem",
+                  }}
+                  onClick={() => onTicketSelect(ticket.id)}
+                >
+                  <TableCell className="flex items-center gap-2 py-1">
+                    <Avatar className="w-10 h-10 bg-[#d9d9d9] rounded-[20px]">
+                      <AvatarFallback className="bg-[#d9d9d9]">
+                        {ticket.customer_name.split(' ').map(n => n[0]).join('')}
+                      </AvatarFallback>
+                    </Avatar>
+                    <span className="font-normal text-sm text-[#252426]">
+                      {ticket.customer_name}
+                    </span>
+                  </TableCell>
+                  <TableCell className="font-normal text-sm text-[#252526] py-1">
+                    {ticket.subject}
+                  </TableCell>
+                  <TableCell className="font-normal text-sm text-[#6b6b6b] py-1">
+                    {formatDistanceToNow(new Date(ticket.timestamp), { addSuffix: true })}
+                  </TableCell>
+                  <TableCell className="py-1">
+                    <Badge 
+                      className={`font-normal px-2 py-1 rounded-lg ${
+                        ticket.status === 'open' 
+                          ? 'bg-[#caedff] text-[#2b9ed7]' 
+                          : ticket.status === 'pending'
+                          ? 'bg-[#fff3ca] text-[#d7962b]'
+                          : 'bg-[#ffcaca] text-[#d72b2b]'
+                      }`}
+                    >
+                      {ticket.status.charAt(0).toUpperCase() + ticket.status.slice(1)}
+                    </Badge>
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </div>
       </Card>
 
-      <div className="flex items-center justify-between w-full">
+      <div className="flex flex-col sm:flex-row items-center justify-between w-full gap-4 sm:gap-2">
         <div className="flex items-center gap-2">
           <span className="text-xs text-[#6b6b6b]">Rows per page:</span>
           <Select 

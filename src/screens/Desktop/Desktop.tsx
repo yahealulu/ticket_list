@@ -39,6 +39,7 @@ export const Desktop = (): JSX.Element => {
   } = useTickets();
 
   const [isChatVisible, setIsChatVisible] = useState(true);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   // Calculate status counts
   const statusCounts = {
@@ -90,10 +91,23 @@ export const Desktop = (): JSX.Element => {
   return (
     <div className="bg-[#f8f5ff] dark:bg-gray-900 flex flex-row justify-center w-full transition-colors duration-300">
       <div className="bg-[#f8f5ff] dark:bg-gray-900 w-full max-w-[1440px] relative flex flex-row transition-colors duration-300">
+        {/* Mobile menu button */}
+        <Button
+          variant="ghost"
+          size="icon"
+          className="lg:hidden fixed top-4 left-4 z-50"
+          onClick={() => setIsSidebarOpen(!isSidebarOpen)}
+        >
+          {isSidebarOpen ? "✕" : "☰"}
+        </Button>
+
+        {/* Sidebar */}
         <motion.div
-          initial={{ x: -100 }}
-          animate={{ x: 0 }}
-          className="w-[72px] h-screen flex-shrink-0 [background:linear-gradient(90deg,rgba(37,31,50,1)_0%,rgba(58,47,83,1)_100%)]"
+          initial={false}
+          animate={{ x: isSidebarOpen ? 0 : "-100%" }}
+          className={`fixed lg:relative lg:translate-x-0 z-40 w-[72px] h-screen flex-shrink-0 [background:linear-gradient(90deg,rgba(37,31,50,1)_0%,rgba(58,47,83,1)_100%)] ${
+            isSidebarOpen ? "translate-x-0" : "-translate-x-full"
+          } lg:translate-x-0 transition-transform duration-300`}
         >
           <div className="flex justify-center pt-4">
             <motion.img
@@ -125,16 +139,18 @@ export const Desktop = (): JSX.Element => {
               </motion.div>
             ))}
           </div>
-
-          {/* Logout button removed */}
         </motion.div>
 
         <div className="flex-1 flex flex-col">
           <SidebarSection searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
 
-          <div className="flex flex-1">
+          <div className="flex flex-1 overflow-hidden">
             <PanelGroup direction="horizontal">
-              <Panel defaultSize={20} minSize={15}>
+              <Panel 
+                defaultSize={20} 
+                minSize={15}
+                className="hidden md:block"
+              >
                 <TicketListSection
                   currentStatus={currentStatus}
                   setStatus={setStatus}
@@ -142,7 +158,7 @@ export const Desktop = (): JSX.Element => {
                 />
               </Panel>
 
-              <PanelResizeHandle className="w-1 bg-gray-200 hover:bg-gray-300 transition-colors" />
+              <PanelResizeHandle className="hidden md:block w-1 bg-gray-200 hover:bg-gray-300 transition-colors" />
 
               <Panel defaultSize={50} minSize={30}>
                 <TicketDetailSection
@@ -161,8 +177,12 @@ export const Desktop = (): JSX.Element => {
 
               {isChatVisible && (
                 <>
-                  <PanelResizeHandle className="w-1 bg-gray-200 hover:bg-gray-300 transition-colors" />
-                  <Panel defaultSize={30} minSize={20}>
+                  <PanelResizeHandle className="hidden lg:block w-1 bg-gray-200 hover:bg-gray-300 transition-colors" />
+                  <Panel 
+                    defaultSize={30} 
+                    minSize={20}
+                    className="hidden lg:block"
+                  >
                     <HeaderSection 
                       selectedTicket={selectedTicket}
                       messageInput={messageInput}
@@ -174,6 +194,31 @@ export const Desktop = (): JSX.Element => {
                 </>
               )}
             </PanelGroup>
+          </div>
+
+          {/* Mobile status tabs */}
+          <div className="md:hidden fixed bottom-0 left-0 right-0 bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700 flex justify-around p-4">
+            <Button
+              variant={currentStatus === 'open' ? 'default' : 'ghost'}
+              onClick={() => setStatus('open')}
+              className="flex-1 mx-1"
+            >
+              Open ({statusCounts.open})
+            </Button>
+            <Button
+              variant={currentStatus === 'pending' ? 'default' : 'ghost'}
+              onClick={() => setStatus('pending')}
+              className="flex-1 mx-1"
+            >
+              Pending ({statusCounts.pending})
+            </Button>
+            <Button
+              variant={currentStatus === 'closed' ? 'default' : 'ghost'}
+              onClick={() => setStatus('closed')}
+              className="flex-1 mx-1"
+            >
+              Closed ({statusCounts.closed})
+            </Button>
           </div>
         </div>
       </div>
