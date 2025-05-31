@@ -41,19 +41,19 @@ export const TicketDetailSection = ({
   onTicketSelect
 }: TicketDetailSectionProps): JSX.Element => {
   return (
-    <section className="flex flex-col w-full max-w-full lg:max-w-[684px] gap-6 p-4 lg:p-6">
-      <Card className="border-0 shadow-none overflow-x-auto">
-        <div className="min-w-[600px]">
+    <section className="flex flex-col w-full max-w-full lg:max-w-[684px] gap-6 p-4 lg:p-6 overflow-x-auto">
+      <Card className="border-0 shadow-none">
+        <div className="min-w-[300px]">
           <Table>
             <TableHeader>
               <TableRow className="hover:bg-transparent">
                 <TableHead className="w-[200px] font-semibold text-sm text-[#6b6b6b]">
                   Name
                 </TableHead>
-                <TableHead className="w-[187px] font-semibold text-sm text-[#6b6b6b]">
+                <TableHead className="hidden sm:table-cell w-[187px] font-semibold text-sm text-[#6b6b6b]">
                   Subject
                 </TableHead>
-                <TableHead className="w-[100px] font-semibold text-sm text-[#6b6b6b]">
+                <TableHead className="hidden sm:table-cell w-[100px] font-semibold text-sm text-[#6b6b6b]">
                   Timestamp
                 </TableHead>
                 <TableHead className="w-[54px] font-semibold text-sm text-[#6b6b6b]">
@@ -83,10 +83,10 @@ export const TicketDetailSection = ({
                       {ticket.customer_name}
                     </span>
                   </TableCell>
-                  <TableCell className="font-normal text-sm text-[#252526] py-1">
+                  <TableCell className="hidden sm:table-cell font-normal text-sm text-[#252526] py-1">
                     {ticket.subject}
                   </TableCell>
-                  <TableCell className="font-normal text-sm text-[#6b6b6b] py-1">
+                  <TableCell className="hidden sm:table-cell font-normal text-sm text-[#6b6b6b] py-1">
                     {formatDistanceToNow(new Date(ticket.timestamp), { addSuffix: true })}
                   </TableCell>
                   <TableCell className="py-1">
@@ -128,7 +128,7 @@ export const TicketDetailSection = ({
           </Select>
         </div>
 
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2 overflow-x-auto">
           <Button
             variant="outline"
             size="icon"
