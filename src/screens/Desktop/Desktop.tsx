@@ -160,7 +160,7 @@ export const Desktop = (): JSX.Element => {
                   />
                 </Panel>
 
-                {window.innerWidth >= 1024 && (
+                {selectedTicket && (
                   <>
                     <PanelResizeHandle className="w-1 bg-gray-200 hover:bg-gray-300 transition-colors" />
                     <Panel defaultSize={30} minSize={20}>
@@ -169,7 +169,13 @@ export const Desktop = (): JSX.Element => {
                         messageInput={messageInput}
                         setMessageInput={setMessageInput}
                         sendMessage={sendMessage}
-                        onClose={() => setIsChatVisible(false)}
+                        onClose={() => {
+                          setIsChatVisible(false);
+                          if (window.innerWidth < 1024) {
+                            // Only clear selected ticket on mobile
+                            fetchTicketDetails(0);
+                          }
+                        }}
                       />
                     </Panel>
                   </>
@@ -187,7 +193,13 @@ export const Desktop = (): JSX.Element => {
                   messageInput={messageInput}
                   setMessageInput={setMessageInput}
                   sendMessage={sendMessage}
-                  onClose={() => setIsChatVisible(false)}
+                  onClose={() => {
+                    setIsChatVisible(false);
+                    if (window.innerWidth < 1024) {
+                      // Only clear selected ticket on mobile
+                      fetchTicketDetails(0);
+                    }
+                  }}
                 />
               </motion.div>
             )}
